@@ -91,7 +91,7 @@ void setup(){
   Serial.begin(115200);
 
   // Initialize BME280 sensor
-  initBME();
+  //initBME();
   initWiFi();
   timeClient.begin();
 
@@ -145,10 +145,10 @@ void loop(){
 
     parentPath= databasePath + "/" + String(timestamp);
 
-    json.set(tempPath.c_str(), String(bme.readTemperature()));
-    json.set(humPath.c_str(), String(bme.readHumidity()));
-    json.set(presPath.c_str(), String(bme.readPressure()/100.0F));
-    json.set(timePath, String(timestamp));
+    json.set(tempPath.c_str(), String("123Test"));
+    //json.set(humPath.c_str(), String(bme.readHumidity()));
+    //json.set(presPath.c_str(), String(bme.readPressure()/100.0F));
+    //json.set(timePath, String(timestamp));
     Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, parentPath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
   }
 }
