@@ -21,6 +21,7 @@ unsigned long timer = 60000;
 String databasePath;
 String parentPath;
 FirebaseJson json;
+FirebaseJson jsonC;
 
 String uid;
 
@@ -98,11 +99,14 @@ void loop() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
   if (Firebase.ready()){
-
     parentPath= databasePath + "/" + getDay() +"/"+ getTime();
+    String current= databasePath + "/" + "current";
     json.set("/temperature",String(temperature));
     json.set("/humidity",String(humidity));
+    jsonC.set("/temperature",String(temperature));
+    jsonC.set("/humidity",String(humidity));
     Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&data, parentPath.c_str(), &json) ? "ok" : data.errorReason().c_str());
+    Serial.printf("Set jsonC... %s\n", Firebase.RTDB.setJSON(&data, current.c_str(), &jsonC) ? "ok" : data.errorReason().c_str());
   }
   delay(timer);
 }

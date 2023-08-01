@@ -1,2 +1,3 @@
 Arduino/BME280SensorFirebase/secrets.h
 Arduino/DHT11SensorFirebase/secrets.h
+App/celsius_link/lib/secrets.dart

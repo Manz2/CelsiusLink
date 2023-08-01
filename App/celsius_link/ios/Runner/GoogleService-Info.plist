@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>37404708646-g8ha2pln56f1a11usnbe9im368n75civ.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.37404708646-g8ha2pln56f1a11usnbe9im368n75civ</string>
+	<key>API_KEY</key>
+	<string>AIzaSyASak9q_2X6F_WKJZPNC50OaxyYhrSrjwQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>37404708646</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.celsiusLink</string>
+	<key>PROJECT_ID</key>
+	<string>celsiuslink-bea40</string>
+	<key>STORAGE_BUCKET</key>
+	<string>celsiuslink-bea40.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:37404708646:ios:6a8d3068d41107a5063be7</string>
+	<key>DATABASE_URL</key>
+	<string>https://celsiuslink-bea40-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "37404708646",
+    "firebase_url": "https://celsiuslink-bea40-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "celsiuslink-bea40",
+    "storage_bucket": "celsiuslink-bea40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37404708646:android:ba9b4e1a54e2a9ae063be7",
+        "android_client_info": {
+          "package_name": "com.example.celsius_link"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37404708646-dbm98ojh26ego84ufpph0m388u9dadqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_ydR3gT4X0m658Q8dnWbsKWT-Egb5g64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37404708646-dbm98ojh26ego84ufpph0m388u9dadqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
