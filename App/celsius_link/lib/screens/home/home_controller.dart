@@ -54,14 +54,20 @@ class HomeControllerImplmentation extends HomeController {
         FirebaseDatabase.instance.ref('Data/$uid/messurements/');
     DataSnapshot tempTodaySnapshot =
         await temTodayRef.child(formattedDate).get();
+    int counter = 0;
     for (var element in tempTodaySnapshot.children) {
-      String formattedDateTwo = DateFormat('yyyy-MM-dd').format(date);
-      DateTime dateTime = DateTime.parse("$formattedDateTwo ${element.key!}");
-      double temperature =
-          double.parse(element.child("temperature").value.toString());
-      tempTodayList.add({dateTime: temperature});
+      if (counter == 2) {
+        String formattedDateTwo = DateFormat('yyyy-MM-dd').format(date);
+        DateTime dateTime = DateTime.parse("$formattedDateTwo ${element.key!}");
+        double temperature =
+            double.parse(element.child("temperature").value.toString());
+        tempTodayList.add({dateTime: temperature});
+        counter = 0;
+      } else {
+        counter++;
+      }
     }
-    print(tempTodayList);
+
     state = state.copyWith(temperatureToday: tempTodayList);
   }
 
