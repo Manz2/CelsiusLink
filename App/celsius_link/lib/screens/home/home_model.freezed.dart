@@ -17,6 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeModel {
   String get temp => throw _privateConstructorUsedError;
+  String get hum => throw _privateConstructorUsedError;
+  String get bat => throw _privateConstructorUsedError;
+  int get selected => throw _privateConstructorUsedError;
+  List<Map<DateTime, double>> get temperatureToday =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -28,7 +33,12 @@ abstract class $HomeModelCopyWith<$Res> {
   factory $HomeModelCopyWith(HomeModel value, $Res Function(HomeModel) then) =
       _$HomeModelCopyWithImpl<$Res, HomeModel>;
   @useResult
-  $Res call({String temp});
+  $Res call(
+      {String temp,
+      String hum,
+      String bat,
+      int selected,
+      List<Map<DateTime, double>> temperatureToday});
 }
 
 /// @nodoc
@@ -45,12 +55,32 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
   @override
   $Res call({
     Object? temp = null,
+    Object? hum = null,
+    Object? bat = null,
+    Object? selected = null,
+    Object? temperatureToday = null,
   }) {
     return _then(_value.copyWith(
       temp: null == temp
           ? _value.temp
           : temp // ignore: cast_nullable_to_non_nullable
               as String,
+      hum: null == hum
+          ? _value.hum
+          : hum // ignore: cast_nullable_to_non_nullable
+              as String,
+      bat: null == bat
+          ? _value.bat
+          : bat // ignore: cast_nullable_to_non_nullable
+              as String,
+      selected: null == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as int,
+      temperatureToday: null == temperatureToday
+          ? _value.temperatureToday
+          : temperatureToday // ignore: cast_nullable_to_non_nullable
+              as List<Map<DateTime, double>>,
     ) as $Val);
   }
 }
@@ -62,7 +92,12 @@ abstract class _$$_HomeModelCopyWith<$Res> implements $HomeModelCopyWith<$Res> {
       __$$_HomeModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String temp});
+  $Res call(
+      {String temp,
+      String hum,
+      String bat,
+      int selected,
+      List<Map<DateTime, double>> temperatureToday});
 }
 
 /// @nodoc
@@ -77,12 +112,32 @@ class __$$_HomeModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? temp = null,
+    Object? hum = null,
+    Object? bat = null,
+    Object? selected = null,
+    Object? temperatureToday = null,
   }) {
     return _then(_$_HomeModel(
       temp: null == temp
           ? _value.temp
           : temp // ignore: cast_nullable_to_non_nullable
               as String,
+      hum: null == hum
+          ? _value.hum
+          : hum // ignore: cast_nullable_to_non_nullable
+              as String,
+      bat: null == bat
+          ? _value.bat
+          : bat // ignore: cast_nullable_to_non_nullable
+              as String,
+      selected: null == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as int,
+      temperatureToday: null == temperatureToday
+          ? _value._temperatureToday
+          : temperatureToday // ignore: cast_nullable_to_non_nullable
+              as List<Map<DateTime, double>>,
     ));
   }
 }
@@ -90,14 +145,34 @@ class __$$_HomeModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeModel implements _HomeModel {
-  const _$_HomeModel({required this.temp});
+  const _$_HomeModel(
+      {required this.temp,
+      required this.hum,
+      required this.bat,
+      required this.selected,
+      required final List<Map<DateTime, double>> temperatureToday})
+      : _temperatureToday = temperatureToday;
 
   @override
   final String temp;
+  @override
+  final String hum;
+  @override
+  final String bat;
+  @override
+  final int selected;
+  final List<Map<DateTime, double>> _temperatureToday;
+  @override
+  List<Map<DateTime, double>> get temperatureToday {
+    if (_temperatureToday is EqualUnmodifiableListView)
+      return _temperatureToday;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_temperatureToday);
+  }
 
   @override
   String toString() {
-    return 'HomeModel(temp: $temp)';
+    return 'HomeModel(temp: $temp, hum: $hum, bat: $bat, selected: $selected, temperatureToday: $temperatureToday)';
   }
 
   @override
@@ -105,11 +180,18 @@ class _$_HomeModel implements _HomeModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_HomeModel &&
-            (identical(other.temp, temp) || other.temp == temp));
+            (identical(other.temp, temp) || other.temp == temp) &&
+            (identical(other.hum, hum) || other.hum == hum) &&
+            (identical(other.bat, bat) || other.bat == bat) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
+            const DeepCollectionEquality()
+                .equals(other._temperatureToday, _temperatureToday));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, temp);
+  int get hashCode => Object.hash(runtimeType, temp, hum, bat, selected,
+      const DeepCollectionEquality().hash(_temperatureToday));
 
   @JsonKey(ignore: true)
   @override
@@ -119,10 +201,24 @@ class _$_HomeModel implements _HomeModel {
 }
 
 abstract class _HomeModel implements HomeModel {
-  const factory _HomeModel({required final String temp}) = _$_HomeModel;
+  const factory _HomeModel(
+          {required final String temp,
+          required final String hum,
+          required final String bat,
+          required final int selected,
+          required final List<Map<DateTime, double>> temperatureToday}) =
+      _$_HomeModel;
 
   @override
   String get temp;
+  @override
+  String get hum;
+  @override
+  String get bat;
+  @override
+  int get selected;
+  @override
+  List<Map<DateTime, double>> get temperatureToday;
   @override
   @JsonKey(ignore: true)
   _$$_HomeModelCopyWith<_$_HomeModel> get copyWith =>
