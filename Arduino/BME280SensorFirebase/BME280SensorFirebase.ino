@@ -1,10 +1,3 @@
-/*
-  Rui Santos
-  Complete project details at our blog: https://RandomNerdTutorials.com/esp8266-data-logging-firebase-realtime-database/
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
-  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <Firebase_ESP_Client.h>
@@ -13,61 +6,40 @@
 #include <Adafruit_BME280.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <DHT.h>
 
-// Provide the token generation process info.
 #include "addons/TokenHelper.h"
-// Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
-// Insert your network credentials
 #include "secrets.h"
 
-// Define Firebase objects
+#define DHTPIN D4   // Pin connected to the DHT11 sensor
+#define DHTTYPE DHT11   // DHT 11
+
+DHT dht(DHTPIN, DHTTYPE);
+unsigned long timer = 300000;
+
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-// Variable to save USER UID
 String uid;
 
-// Database main path (to be updated in setup with the user UID)
 String databasePath;
-// Database child nodes
-String tempPath = "/temperature";
-String humPath = "/humidity";
-String presPath = "/pressure";
-String timePath = "/timestamp";
 
-// Parent Node (to be updated in every loop)
 String parentPath;
 
 FirebaseJson json;
+FirebaseJson jsonC;
 
-// Define NTP Client to get time
+
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 
-// Variable to save current epoch time
-int timestamp;
+int raw=0;
+float volt=0.0;
 
-// BME280 sensor
-Adafruit_BME280 bme; // I2C
-float temperature;
-float humidity;
-float pressure;
-
-// Timer variables (send new readings every three minutes)
-unsigned long sendDataPrevMillis = 0;
-unsigned long timerDelay = 180000;
-
-// Initialize BME280
-void initBME(){
-  if (!bme.begin(0x76)) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
-    while (1);
-  }
-}
-
+bool continueBool = false;
 // Initialize WiFi
 void initWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -79,30 +51,38 @@ void initWiFi() {
   Serial.println(WiFi.localIP());
   Serial.println();
 }
-
-// Function that gets current epoch time
-unsigned long getTime() {
+String getDay(){
   timeClient.update();
-  unsigned long now = timeClient.getEpochTime();
-  return now;
+  time_t epochTime = timeClient.getEpochTime();
+  struct tm *ptm = gmtime ((time_t *)&epochTime);
+  int monthDay = ptm->tm_mday;
+  int currentMonth = ptm->tm_mon+1;
+  int currentYear = ptm->tm_year+1900;
+  return String(monthDay) + "-" + String(currentMonth) + "-" + String(currentYear);
+}
+String getTime() {
+  timeClient.update();
+  return timeClient.getFormattedTime();
+}
+String getPath(){
+  String path =getDay() +"/"+ getTime();
+  continueBool = true;
+  return path;
 }
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(9600);
+  pinMode(A0, INPUT);
+  Serial.println("DHT11 Test");
 
-  // Initialize BME280 sensor
-  //initBME();
+  dht.begin();
   initWiFi();
   timeClient.begin();
 
-  // Assign the api key (required)
-  config.api_key = API_KEY;
 
-  // Assign the user sign in credentials
+  config.api_key = API_KEY;
   auth.user.email = USER_EMAIL;
   auth.user.password = USER_PASSWORD;
-
-  // Assign the RTDB URL (required)
   config.database_url = DATABASE_URL;
 
   Firebase.reconnectWiFi(true);
@@ -129,26 +109,30 @@ void setup(){
   Serial.println(uid);
 
   // Update database path
-  databasePath = "/UsersData/" + uid + "/readings";
+  databasePath = "/UsersData/" + uid + "/messurements";
 }
 
 void loop(){
+  float humidity = dht.readHumidity();
+  float temperature = dht.readTemperature();
+  continueBool = false;
+  parentPath = databasePath + "/" + "123";//getPath(); 
 
-  // Send new readings to database
-  if (Firebase.ready() && (millis() - sendDataPrevMillis > timerDelay || sendDataPrevMillis == 0)){
-    sendDataPrevMillis = millis();
 
-    //Get current timestamp
-    timestamp = getTime();
-    Serial.print ("time: ");
-    Serial.println (timestamp);
+  raw = analogRead(A0);
+  volt=raw/1023.0;
+  volt=volt*4.2;
 
-    parentPath= databasePath + "/" + String(timestamp);
-
-    json.set(tempPath.c_str(), String("123Test"));
-    //json.set(humPath.c_str(), String(bme.readHumidity()));
-    //json.set(presPath.c_str(), String(bme.readPressure()/100.0F));
-    //json.set(timePath, String(timestamp));
+  if (Firebase.ready()){
+    String current= databasePath + "/" + "current";
+    json.set("/temperature",String(temperature));
+    json.set("/humidity",String(humidity));
+    json.set("/voltage",String(volt));
+    jsonC.set("/temperature",String(temperature));
+    jsonC.set("/humidity",String(humidity));
+    jsonC.set("/voltage",String(volt));
     Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&fbdo, parentPath.c_str(), &json) ? "ok" : fbdo.errorReason().c_str());
+    Serial.printf("Set jsonC... %s\n", Firebase.RTDB.setJSON(&fbdo, current.c_str(), &jsonC) ? "ok" : fbdo.errorReason().c_str());
   }
+  delay(timer);
 }

@@ -11,19 +11,21 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
+  late final HomeController controller;
   @override
   void initState() {
     super.initState();
+    controller = ref.read(providers.homeControllerProvider.notifier);
+    controller.getTemp();
   }
 
   @override
   Widget build(BuildContext context) {
-    final HomeController controller =
-        ref.read(providers.homeControllerProvider.notifier);
+    final HomeModel model = ref.watch(providers.homeControllerProvider);
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text(controller.getTemp().first),
+          child: Text(model.temp),
         ),
       ),
     );
@@ -32,5 +34,5 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
 abstract class HomeController extends StateNotifier<HomeModel> {
   HomeController(HomeModel state) : super(state);
-  List<String> getTemp();
+  Future<void> getTemp();
 }

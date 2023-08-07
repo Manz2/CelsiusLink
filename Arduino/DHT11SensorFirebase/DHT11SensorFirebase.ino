@@ -1,9 +1,10 @@
+#include <Arduino.h>
 #include <WiFiUdp.h>
 #include <DHT.h>
 #include <NTPClient.h>
 #include <Firebase_ESP_Client.h>
 #include <ESP8266WiFi.h>
-
+#include <Wire.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 #include "secrets.h"
@@ -14,7 +15,7 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 //time between messurements
-unsigned long timer = 60000;
+unsigned long timer = 300000;
 
 
 
@@ -31,6 +32,9 @@ FirebaseConfig config;
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
+
+int raw=0;
+float volt=0.0;
 
 
 void connectWifi(){
@@ -52,6 +56,8 @@ void setup() {
   dht.begin();
   connectWifi();
   timeClient.begin();
+
+  pinMode(A0, INPUT);
 
   config.api_key = API_KEY;
   auth.user.email = USER_EMAIL;
@@ -98,13 +104,20 @@ String getTime() {
 void loop() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
+
+  raw = analogRead(A0);
+  volt=raw/1023.0;
+  volt=volt*4.2;
+
   if (Firebase.ready()){
     parentPath= databasePath + "/" + getDay() +"/"+ getTime();
     String current= databasePath + "/" + "current";
     json.set("/temperature",String(temperature));
     json.set("/humidity",String(humidity));
+    json.set("/voltage",String(volt));
     jsonC.set("/temperature",String(temperature));
     jsonC.set("/humidity",String(humidity));
+    jsonC.set("/voltage",String(volt));
     Serial.printf("Set json... %s\n", Firebase.RTDB.setJSON(&data, parentPath.c_str(), &json) ? "ok" : data.errorReason().c_str());
     Serial.printf("Set jsonC... %s\n", Firebase.RTDB.setJSON(&data, current.c_str(), &jsonC) ? "ok" : data.errorReason().c_str());
   }

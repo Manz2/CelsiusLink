@@ -5,6 +5,6 @@ part 'home_model.freezed.dart';
 @freezed
 class HomeModel with _$HomeModel {
   const factory HomeModel({
-    required List<String> temp,
+    required String temp,
   }) = _HomeModel;
 }

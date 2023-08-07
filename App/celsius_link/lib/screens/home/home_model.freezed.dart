@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeModel {
-  List<String> get temp => throw _privateConstructorUsedError;
+  String get temp => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -28,7 +28,7 @@ abstract class $HomeModelCopyWith<$Res> {
   factory $HomeModelCopyWith(HomeModel value, $Res Function(HomeModel) then) =
       _$HomeModelCopyWithImpl<$Res, HomeModel>;
   @useResult
-  $Res call({List<String> temp});
+  $Res call({String temp});
 }
 
 /// @nodoc
@@ -50,7 +50,7 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
       temp: null == temp
           ? _value.temp
           : temp // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ) as $Val);
   }
 }
@@ -62,7 +62,7 @@ abstract class _$$_HomeModelCopyWith<$Res> implements $HomeModelCopyWith<$Res> {
       __$$_HomeModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<String> temp});
+  $Res call({String temp});
 }
 
 /// @nodoc
@@ -80,9 +80,9 @@ class __$$_HomeModelCopyWithImpl<$Res>
   }) {
     return _then(_$_HomeModel(
       temp: null == temp
-          ? _value._temp
+          ? _value.temp
           : temp // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ));
   }
 }
@@ -90,15 +90,10 @@ class __$$_HomeModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeModel implements _HomeModel {
-  const _$_HomeModel({required final List<String> temp}) : _temp = temp;
+  const _$_HomeModel({required this.temp});
 
-  final List<String> _temp;
   @override
-  List<String> get temp {
-    if (_temp is EqualUnmodifiableListView) return _temp;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_temp);
-  }
+  final String temp;
 
   @override
   String toString() {
@@ -110,12 +105,11 @@ class _$_HomeModel implements _HomeModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_HomeModel &&
-            const DeepCollectionEquality().equals(other._temp, _temp));
+            (identical(other.temp, temp) || other.temp == temp));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_temp));
+  int get hashCode => Object.hash(runtimeType, temp);
 
   @JsonKey(ignore: true)
   @override
@@ -125,10 +119,10 @@ class _$_HomeModel implements _HomeModel {
 }
 
 abstract class _HomeModel implements HomeModel {
-  const factory _HomeModel({required final List<String> temp}) = _$_HomeModel;
+  const factory _HomeModel({required final String temp}) = _$_HomeModel;
 
   @override
-  List<String> get temp;
+  String get temp;
   @override
   @JsonKey(ignore: true)
   _$$_HomeModelCopyWith<_$_HomeModel> get copyWith =>
